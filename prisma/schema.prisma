@@ -6,8 +6,18 @@ generator client {
 }
 
 datasource db {
-    provider = "mysql"
+    provider = "mongodb"
     url      = env("DATABASE_URL")
+    relationMode = "prisma"
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @test.ObjectId
+  email     String   @unique
+  name      String?
+  posts     Post[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Post {
@@ -18,3 +28,5 @@ model Post {
 
     @@index([name])
 }
+
+
